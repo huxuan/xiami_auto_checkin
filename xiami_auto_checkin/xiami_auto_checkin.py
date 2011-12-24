@@ -5,6 +5,7 @@ import re
 import sys
 import urllib
 import urllib2
+import datetime
 import cookielib
 
 def check(response):
@@ -25,6 +26,7 @@ def main():
     # Get email and password
     if len(sys.argv) != 3:
         print '[Error] Please input email & password as sys.argv!'
+        print datetime.datetime.now()
         return
     email = sys.argv[1]
     password = sys.argv[2]
@@ -50,6 +52,7 @@ def main():
             print '[Succeed] Checkin Already!', email, result
         else:
             print '[Error] Login Failed!'
+        print datetime.datetime.now()
         return
     checkin_url = 'http://www.xiami.com' + checkin_result.group(1)
     checkin_headers = {'Referer':'http://www.xiami.com/web', 'User-Agent':'Opera/9.60',}
@@ -62,6 +65,7 @@ def main():
         print '[Succeed] Checkin Succeed!', email, result 
     else:
         print '[Error] Checkin Failed!'
+    print datetime.datetime.now()
     pass
 
 if __name__=='__main__':
