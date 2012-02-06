@@ -65,7 +65,7 @@ def main():
     if not checkin_result:
         # Checkin Already | Login Failed
         result = check(login_response)
-        if result :
+        if result:
             print '[Succeed] Checkin Already!', email, result
         else:
             print '[Error] Login Failed!'
