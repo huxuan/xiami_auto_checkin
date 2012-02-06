@@ -1,5 +1,17 @@
 #!/usr/bin/python
 # encoding:utf-8
+# +-----------------------------------------------------------------------------
+# | File: xiami_auto_checkin.py
+# | Author: huxuan
+# | E-mail: i(at)huxuan.org
+# | Created: 2012-12-11
+# | Last modified: 2012-02-06
+# | Description:
+# |     Description for xiami_auto_checkin.py
+# |
+# | Copyrgiht (c) 2012 by huxuan. All rights reserved.
+# | License GPLv3
+# +-----------------------------------------------------------------------------
 
 import re
 import sys
@@ -9,18 +21,23 @@ import datetime
 import cookielib
 
 def check(response):
-    """
-    docstring for check
+    """Check whether checkin is successful
+
+    Args:
+        response: the urlopen result of checkin
+
+    Returns:
+        If succeed, return a string like '已经连续签到**天'
+            ** is the amount of continous checkin days
+        If not, return False
     """
     pattern = re.compile(r'<div class="idh">(已连续签到\d+天)</div>')
     result = pattern.search(response)
     if result: return result.group(1)
     return False
-    pass
 
 def main():
-    """
-    docstring for main
+    """Main process of auto checkin
     """
 
     # Get email and password
@@ -66,7 +83,6 @@ def main():
     else:
         print '[Error] Checkin Failed!'
     print datetime.datetime.now()
-    pass
 
 if __name__=='__main__':
     main()
