@@ -14,6 +14,7 @@
 # +-----------------------------------------------------------------------------
 
 import re
+import os
 import sys
 import urllib
 import urllib2
@@ -39,11 +40,18 @@ def check(response):
 def main():
     """Main process of auto checkin
     """
+    # Get log file
+    LOG_DIR = os.path.join(os.path.expanduser("~"), '.log')
+    if not os.path.isdir(LOG_DIR):
+        os.makedirs(LOG_DIR)
+    LOG_PATH = os.path.join(LOG_DIR, 'xiami_auto_checkin.log')
+    f = LOG_FILE = file(LOG_PATH, 'a')
+    print >>f # add a blank space to seperate log
 
     # Get email and password
     if len(sys.argv) != 3:
-        print '[Error] Please input email & password as sys.argv!'
-        print datetime.datetime.now()
+        print >>f, '[Error] Please input email & password as sys.argv!'
+        print >>f, datetime.datetime.now()
         return
     email = sys.argv[1]
     password = sys.argv[2]
@@ -66,10 +74,10 @@ def main():
         # Checkin Already | Login Failed
         result = check(login_response)
         if result:
-            print '[Succeed] Checkin Already!', email, result
+            print >>f, '[Succeed] Checkin Already!', email, result
         else:
-            print '[Error] Login Failed!'
-        print datetime.datetime.now()
+            print >>f, '[Error] Login Failed!'
+        print >>f, datetime.datetime.now()
         return
     checkin_url = 'http://www.xiami.com' + checkin_result.group(1)
     checkin_headers = {'Referer':'http://www.xiami.com/web', 'User-Agent':'Opera/9.60',}
@@ -79,10 +87,10 @@ def main():
     # Result
     result = check(checkin_response)
     if result:
-        print '[Succeed] Checkin Succeed!', email, result 
+        print >>f, '[Succeed] Checkin Succeed!', email, result
     else:
-        print '[Error] Checkin Failed!'
-    print datetime.datetime.now()
+        print >>f, '[Error] Checkin Failed!'
+    print >>f, datetime.datetime.now()
 
 if __name__=='__main__':
     main()
