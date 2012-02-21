@@ -76,7 +76,7 @@ def main():
         if result:
             print >>f, '[Succeed] Checkin Already!', email, result
         else:
-            print >>f, '[Error] Login Failed!'
+            print >>f, '[Error] Login Failed!', email
         print >>f, datetime.datetime.now()
         return
     checkin_url = 'http://www.xiami.com' + checkin_result.group(1)
