@@ -1,2 +1,3 @@
-# replace USERNAME and PASSWORD with email account and corresponding password
-5 */8 * * * python /home/huxuan/Code/python/xiami_auto_checkin/xiami_auto_checkin.py USERNAME PASSWORD
+# replace /path/to/xiami_auto_checkin.py with the real path
+# replace USERNAME and PASSWORD with email account and password
+5 */8 * * * python /path/to/xiami_auto_checkin.py USERNAME PASSWORD
