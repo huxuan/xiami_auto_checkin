@@ -74,7 +74,7 @@ def main():
         # Checkin Already | Login Failed
         result = check(login_response)
         if result:
-            print >>f, '[Succeed] Checkin Already!', email, result
+            print >>f, '[Already] Checkin Already!', email, result
         else:
             print >>f, '[Error] Login Failed!', email
         print >>f, datetime.datetime.now()
@@ -87,7 +87,7 @@ def main():
     # Result
     result = check(checkin_response)
     if result:
-        print >>f, '[Succeed] Checkin Succeed!', email, result
+        print >>f, '[Success] Checkin Succeed!', email, result
     else:
         print >>f, '[Error] Checkin Failed!'
     print >>f, datetime.datetime.now()
