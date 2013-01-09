@@ -4,7 +4,7 @@
 # | File: xiami_auto_checkin.py
 # | Author: huxuan
 # | E-mail: i(at)huxuan.org
-# | Created: 2012-12-11
+# | Created: 2011-12-11
 # | Last modified: 2012-02-06
 # | Description:
 # |     Description for xiami_auto_checkin.py
