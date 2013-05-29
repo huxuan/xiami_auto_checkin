@@ -46,7 +46,6 @@ def main():
         os.makedirs(LOG_DIR)
     LOG_PATH = os.path.join(LOG_DIR, 'xiami_auto_checkin.log')
     f = LOG_FILE = file(LOG_PATH, 'a')
-    print >>f # add a blank space to seperate log
 
     # Get email and password
     if len(sys.argv) != 3:
@@ -61,36 +60,35 @@ def main():
     urllib2.install_opener(opener)
 
     # Login
-    login_url = 'http://www.xiami.com/web/login'
-    login_data = urllib.urlencode({'email':email, 'password':password, 'LoginButton':'登陆',})
-    login_headers = {'Referer':'http://www.xiami.com/web/login', 'User-Agent':'Opera/9.60',}
+    login_url = 'http://www.xiami.com/member/login'
+    login_data = urllib.urlencode({
+        'done': '/',
+        'email':email,
+        'password':password,
+        'submit':'登 录',
+    })
+    login_headers = {
+        'Referer':'http://www.xiami.com/web/login',
+        'User-Agent':'Opera/9.60',
+    }
     login_request = urllib2.Request(login_url, login_data, login_headers)
     login_response = urllib2.urlopen(login_request).read()
 
     # Checkin
-    checkin_pattern = re.compile(r'<a class="check_in" href="(.*?)">')
+    checkin_pattern = re.compile(r'<a.*>(.*?)天\s*?<span>已连续签到</span>')
     checkin_result = checkin_pattern.search(login_response)
-    if not checkin_result:
-        # Checkin Already | Login Failed
-        result = check(login_response)
-        if result:
-            print >>f, '[Already] Checkin Already!', email, result
-        else:
-            print >>f, '[Error] Login Failed!', email
-        print >>f, datetime.datetime.now()
+    if checkin_result:
+        # Checkin Already
+        print >>f, datetime.datetime.now(), email, checkin_result, '[Already]'
         return
-    checkin_url = 'http://www.xiami.com' + checkin_result.group(1)
-    checkin_headers = {'Referer':'http://www.xiami.com/web', 'User-Agent':'Opera/9.60',}
+    checkin_url = 'http://www.xiami.com/task/signin'
+    checkin_headers = {'Referer':'http://www.xiami.com/', 'User-Agent':'Opera/9.60',}
     checkin_request = urllib2.Request(checkin_url, None, checkin_headers)
     checkin_response = urllib2.urlopen(checkin_request).read()
 
     # Result
-    result = check(checkin_response)
-    if result:
-        print >>f, '[Success] Checkin Succeed!', email, result
-    else:
-        print >>f, '[Error] Checkin Failed!'
-    print >>f, datetime.datetime.now()
+    result = checkin_pattern.search(checkin_response)
+    print >>f, datetime.datetime.now(), email, checkin_response
 
 if __name__=='__main__':
     main()
